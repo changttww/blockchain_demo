@@ -18,6 +18,6 @@ fn main() -> Result<()>
     bc.add_block(String::from("Send 1 BTC to bb"))?; 
     sleep(Duration::from_millis(30));
     bc.add_block(String::from("Send 2 BTC to bb"))?;
-    println!("Blockchaain: {:#?}", bc);
+    println!("{}", bc);
     Ok(())
 }
