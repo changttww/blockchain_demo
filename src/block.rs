@@ -5,11 +5,16 @@ use crypto::sha2::Sha256; //使用SHA-256哈希算法
 use std::time::SystemTime; //用于获取系统时间 
 use std::fmt; //用于格式化输出
 use chrono::{DateTime, Utc}; //用于处理时间和日期
+use serde::{Deserialize, Serialize};//用于序列化和反序列化数据
 
 //定义区块结构和相关方法
-const TARGET_HEXS: usize = 5; //定义挖矿难度，即哈希值前4位为0
+const TARGET_HEXS: usize = 7; //定义挖矿难度，即哈希值前4位为0
 //定义区块结构，包括时间戳，前一个区块的哈希值，当前区块哈希值，交易数据
-#[derive(Debug)]  //表示该结构体可以被打印,自动实现Debug trait，可以通过{:?}格式化输出 
+#[derive(Serialize, Deserialize, Debug, Clone)] 
+//Debug表示该结构体可以被打印,自动实现Debug trait，可以通过{:?}格式化输出 
+//Clone表示该结构体可以被克隆，自动实现Clone trait
+//Serialize表示该结构体可以被序列化，自动实现Serialize trait
+//Deserialize表示该结构体可以被反序列化，自动实现Deserialize trait
 pub struct Block
 {
     timestamp:u128, //时间戳
@@ -42,6 +47,9 @@ impl Block
     pub fn get_hash(&self) -> String 
     {
         self.hash.clone() 
+    }
+    pub fn get_prev_hash(&self) -> String {
+        self.prev_block_hash.clone()
     }
 
     pub fn new_block(data: String, prev_block_hash: String) -> Result<Block>
